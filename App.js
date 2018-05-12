@@ -53,7 +53,6 @@ export default class App extends Component {
 
   hitung() {
     let { n, a, c, m, x0} = this.state
-    console.log(this.state);
     n = Number(n)
     a = Number(a)
     c = Number(c)
@@ -80,15 +79,22 @@ export default class App extends Component {
 
   renderRow(data) {
       let value = null
+      let index = null
       if (data) {
         value = data.item
+        index = data.index
       }
       if (data.index != 0) {
         return (
-          <View style={{borderBottomWidth:1, margin:3, marginLeft:10}}>
-            <Text>
-              {value}
+          <View style={{flexDirection:'row'}}>
+            <Text style={{top:5}}>
+              {index}.>
             </Text>
+            <View style={{borderBottomWidth:1, margin:3, marginLeft:10}}>
+              <Text style={{fontWeight: 'bold'}}>
+                {value}
+              </Text>
+            </View>
           </View>
         )
       }
@@ -98,7 +104,11 @@ export default class App extends Component {
     let { n, x } = this.state
     let data = []
     let warningText = null
-    if (x.length < n && x.length > 1) {
+    if (x.length-1 == n) {
+      warningText = (
+        <Text style={{color:'green', margin:5}}>Sukses!!! Tidak ada angka yang sama.</Text>
+      )
+    } else if (x.length < n && x.length > 1) {
       warningText = (
         <Text style={{color:'red', margin:5}}>Berhenti pada iterasi ke {x.length-1}, karena angka {x[x.length-1]} sudah ada.</Text>
       )
