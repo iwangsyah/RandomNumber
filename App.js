@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
 
@@ -51,6 +45,15 @@ export default class App extends Component {
     this.setState({ x0: text })
   }
 
+  hitungValidasi() {
+    let { n, a, c, m, x0} = this.state
+    if (n && a && c && m && x0) {
+      this.hitung()
+    } else {
+      alert('ada nilai yang belum diisi')
+    }
+  }
+
   hitung() {
     let { n, a, c, m, x0} = this.state
     n = Number(n)
@@ -61,6 +64,10 @@ export default class App extends Component {
     let s = [x0]
     let stop = false
 
+    if (this.state.a && a%2 == 0) {
+      alert('nilai a harus ganjil')
+      this.setState({ a: null })
+    }
 
     for (var i = 1; i <= n ; i++) {
       let z = (a * s[i-1] + c) % m
@@ -127,50 +134,63 @@ export default class App extends Component {
             <Text style={{fontWeight:'bold', top:5}}>n     : </Text>
             <View style={styles.containerTextInput}>
               <TextInput
+                ref={(input) => { this.firstTextInput = input; }}
                 underlineColorAndroid = "transparent"
                 style={styles.textInput}
                 keyboardType="numeric"
                 onChangeText={this.onChangeTextN.bind(this)}
-                value={this.state.n}/>
+                value={this.state.n}
+                returnKeyType={"next"}
+                onSubmitEditing={() => { this.secondTextInput.focus(); }}/>
             </View>
           </View>
           <View style={styles.containerItem}>
             <Text style={{fontWeight:'bold', top:5}}>a     : </Text>
             <View style={styles.containerTextInput}>
               <TextInput
+                ref={(input) => { this.secondTextInput = input; }}
                 underlineColorAndroid = "transparent"
                 style={styles.textInput}
                 keyboardType="numeric"
                 onChangeText={this.onChangeTextA.bind(this)}
-                value={this.state.a}/>
+                value={this.state.a}
+                returnKeyType={"next"}
+                onSubmitEditing={() => { this.thirdTextInput.focus(); }}/>
             </View>
           </View>
           <View style={styles.containerItem}>
             <Text style={{fontWeight:'bold', top:5}}>c     : </Text>
             <View style={styles.containerTextInput}>
               <TextInput
+              ref={(input) => { this.thirdTextInput = input; }}
                 underlineColorAndroid = "transparent"
                 style={styles.textInput}
                 keyboardType="numeric"
                 onChangeText={this.onChangeTextC.bind(this)}
-                value={this.state.c}/>
+                value={this.state.c}
+                returnKeyType={"next"}
+                onSubmitEditing={() => { this.fourthTextInput.focus(); }}/>
             </View>
           </View>
           <View style={styles.containerItem}>
             <Text style={{fontWeight:'bold', top:5}}>m    : </Text>
             <View style={styles.containerTextInput}>
               <TextInput
+                ref={(input) => { this.fourthTextInput = input; }}
                 underlineColorAndroid = "transparent"
                 style={styles.textInput}
                 keyboardType="numeric"
                 onChangeText={this.onChangeTextM.bind(this)}
-                value={this.state.m}/>
+                value={this.state.m}
+                returnKeyType={"next"}
+                onSubmitEditing={() => { this.fifthTextInput.focus(); }}/>
             </View>
           </View>
           <View style={styles.containerItem}>
             <Text style={{fontWeight:'bold', top:5}}>x[0] : </Text>
             <View style={styles.containerTextInput}>
               <TextInput
+                ref={(input) => { this.fifthTextInput = input; }}
                 underlineColorAndroid = "transparent"
                 style={styles.textInput}
                 keyboardType="numeric"
@@ -181,7 +201,7 @@ export default class App extends Component {
         </View>
         <TouchableOpacity
           style={{backgroundColor:'skyblue', padding:5, paddingLeft:10, paddingRight:10, borderWidth:1, borderRadius:10}}
-          onPress={this.hitung.bind(this)}>
+          onPress={this.hitungValidasi.bind(this)}>
           <Text style={{fontWeight:'bold'}}>Hitung</Text>
         </TouchableOpacity>
         {warningText}
